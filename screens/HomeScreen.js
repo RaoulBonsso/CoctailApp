@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Image, FlatList, ActivityIndicator, TouchableOpacity, StyleSheet } from 'react-native';
 import axios from 'axios';
+import { FontAwesome } from '@expo/vector-icons';
 
 const HomeScreen = ({ navigation }) => {
   const [cocktails, setCocktails] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [favorites, setFavorites] = useState([]);
 
   const fetchCocktails = async () => {
     const tempCocktails = [];
@@ -14,6 +16,16 @@ const HomeScreen = ({ navigation }) => {
     }
     setCocktails(tempCocktails);
     setLoading(false);
+  };
+
+  const toggleFavorite = (cocktailId) => {
+    setFavorites(prevFavorites => {
+      if (prevFavorites.includes(cocktailId)) {
+        return prevFavorites.filter(id => id !== cocktailId); // Retirer des favoris
+      } else {
+        return [...prevFavorites, cocktailId]; // Ajouter aux favoris
+      }
+    });
   };
 
   useEffect(() => {
@@ -36,6 +48,16 @@ const HomeScreen = ({ navigation }) => {
           >
             <Image source={{ uri: item.strDrinkThumb }} style={styles.image} />
             <Text style={styles.drinkName}>{item.strDrink}</Text>
+            <TouchableOpacity 
+              style={styles.favoriteButton} 
+              onPress={() => toggleFavorite(item.idDrink)}
+            >
+              <FontAwesome 
+                name={favorites.includes(item.idDrink) ? "heart" : "heart-o"} 
+                size={24} 
+                color="red" 
+              />
+            </TouchableOpacity>
           </TouchableOpacity>
         )}
         contentContainerStyle={styles.listContainer}
@@ -61,19 +83,25 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 15,
     elevation: 3,
-    padding: 10,
-    alignItems: 'center',
+    overflow: 'hidden',
   },
   image: {
-    width: 100,
-    height: 100,
-    borderRadius: 10,
-    marginBottom: 10,
+    width: '100%',
+    height: 200,
   },
   drinkName: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'center',
+    padding: 10,
+  },
+  favoriteButton: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    backgroundColor: 'rgba(255, 255, 255, 0.7)',
+    borderRadius: 20,
+    padding: 5,
   },
 });
 
