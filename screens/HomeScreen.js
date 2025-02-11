@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, FlatList, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { View, Text, Image, FlatList, ActivityIndicator, TouchableOpacity, StyleSheet } from 'react-native';
 import axios from 'axios';
 
 const HomeScreen = ({ navigation }) => {
@@ -21,21 +21,60 @@ const HomeScreen = ({ navigation }) => {
   }, []);
 
   if (loading) {
-    return <ActivityIndicator size="large" color="#0000ff" />;
+    return <ActivityIndicator size="large" color="#0000ff" style={styles.loader} />;
   }
 
   return (
-    <FlatList
-      data={cocktails}
-      keyExtractor={item => item.idDrink}
-      renderItem={({ item }) => (
-        <TouchableOpacity onPress={() => navigation.navigate('Details', { cocktail: item })}>
-          <Image source={{ uri: item.strDrinkThumb }} style={{ width: 100, height: 100 }} />
-          <Text>{item.strDrink}</Text>
-        </TouchableOpacity>
-      )}
-    />
+    <View style={styles.container}>
+      <FlatList
+        data={cocktails}
+        keyExtractor={item => item.idDrink}
+        renderItem={({ item }) => (
+          <TouchableOpacity 
+            style={styles.card} 
+            onPress={() => navigation.navigate('Details', { cocktail: item })}
+          >
+            <Image source={{ uri: item.strDrinkThumb }} style={styles.image} />
+            <Text style={styles.drinkName}>{item.strDrink}</Text>
+          </TouchableOpacity>
+        )}
+        contentContainerStyle={styles.listContainer}
+      />
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 10,
+    backgroundColor: '#f8f8f8',
+  },
+  loader: {
+    marginTop: 20,
+  },
+  listContainer: {
+    paddingBottom: 20,
+  },
+  card: {
+    backgroundColor: '#ffffff',
+    borderRadius: 10,
+    marginBottom: 15,
+    elevation: 3,
+    padding: 10,
+    alignItems: 'center',
+  },
+  image: {
+    width: 100,
+    height: 100,
+    borderRadius: 10,
+    marginBottom: 10,
+  },
+  drinkName: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+});
 
 export default HomeScreen;

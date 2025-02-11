@@ -9,10 +9,11 @@ const DetailsScreen = ({ route }) => {
       <Image source={{ uri: cocktail.strDrinkThumb }} style={{ width: 200, height: 200 }} />
       <Text>{cocktail.strDrink}</Text>
       <Text>{cocktail.strInstructions}</Text>
+      {/* Liste des ingrédients */}
       {Object.keys(cocktail)
         .filter(key => key.startsWith('strIngredient') && cocktail[key])
         .map((key, index) => (
-          <Text key={index}>
+          <Text key={cocktail[key] + index}> {/* Utilisez une clé unique */}
             {cocktail[key]}: {cocktail[`strMeasure${index + 1}`]}
           </Text>
         ))}
