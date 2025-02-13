@@ -1,14 +1,16 @@
 import React from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import BottomTabNavigator from './BottomTabNavigator';
+import { createStackNavigator } from '@react-navigation/stack';
+import DrawerNavigator from '../DrawerNavigator';
 import DetailsScreen from '../screens/DetailsScreen';
 
-const Stack = createNativeStackNavigator();
+const Stack = createStackNavigator();
 
-export default function RootStackNavigator() {
+export default function RootStackNavigator({ favorites, setFavorites }) {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="HomeTabs" component={BottomTabNavigator} options={{ headerShown: false }} />
+      <Stack.Screen name="HomeDrawer">
+        {(props) => <DrawerNavigator {...props} favorites={favorites} setFavorites={setFavorites} />}
+      </Stack.Screen>
       <Stack.Screen name="Details" component={DetailsScreen} />
     </Stack.Navigator>
   );
