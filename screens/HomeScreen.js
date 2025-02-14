@@ -21,9 +21,9 @@ const HomeScreen = ({ navigation }) => {
   const toggleFavorite = (cocktailId) => {
     setFavorites(prevFavorites => {
       if (prevFavorites.includes(cocktailId)) {
-        return prevFavorites.filter(id => id !== cocktailId); // Retirer des favoris
+        return prevFavorites.filter(id => id !== cocktailId);
       } else {
-        return [...prevFavorites, cocktailId]; // Ajouter aux favoris
+        return [...prevFavorites, cocktailId]; 
       }
     });
   };
