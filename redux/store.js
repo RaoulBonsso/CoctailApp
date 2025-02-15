@@ -8,7 +8,6 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case 'ADD_FAVORITE':
       return { ...state, favorites: [...state.favorites, action.payload] };
-    // Ajoutez d'autres cas si nécessaire
     default:
       return state;
   }
