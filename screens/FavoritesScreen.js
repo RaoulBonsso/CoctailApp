@@ -5,7 +5,7 @@ import { CocktailContext } from './CocktailContext'; // Chemin vers votre fichie
 const FavoritesScreen = () => {
   const { cocktails, favorites } = useContext(CocktailContext);
 
-  // Filtrer les cocktails favoris
+  // Filtrer les cocktails favoris sa marche pas
   const favoriteCocktails = cocktails.filter(cocktail => favorites.includes(cocktail.idDrink));
 
   return (
